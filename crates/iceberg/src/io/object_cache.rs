@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-use std::mem::size_of_val;
 use std::sync::Arc;
 
+use crate::cache::MemorySize;
 use crate::encryption::EncryptionManager;
 use crate::io::FileIO;
 use crate::spec::{
@@ -32,6 +32,16 @@ const DEFAULT_CACHE_SIZE_BYTES: u64 = 32 * 1024 * 1024; // 32MB
 pub(crate) enum CachedItem {
     ManifestList(Arc<ManifestList>),
     Manifest(Arc<Manifest>),
+}
+
+impl CachedItem {
+    fn weight(&self) -> u32 {
+        let bytes = match self {
+            CachedItem::ManifestList(item) => item.memory_size(),
+            CachedItem::Manifest(item) => item.memory_size(),
+        };
+        u32::try_from(bytes).unwrap_or(u32::MAX)
+    }
 }
 
 #[derive(Clone, Debug, Hash, Eq, PartialEq)]
@@ -99,10 +109,7 @@ impl ObjectCache {
         } else {
             Self {
                 cache: moka::future::Cache::builder()
-                    .weigher(|_, val: &CachedItem| match val {
-                        CachedItem::ManifestList(item) => size_of_val(item.as_ref()),
-                        CachedItem::Manifest(item) => size_of_val(item.as_ref()),
-                    } as u32)
+                    .weigher(|_, val: &CachedItem| val.weight())
                     .max_capacity(cache_size_bytes)
                     .build(),
                 file_io,
@@ -247,7 +254,7 @@ mod tests {
     use crate::io::{FileIO, OutputFile};
     use crate::spec::{
         DataContentType, DataFileBuilder, DataFileFormat, FormatVersion, Literal,
-        ManifestContentType, ManifestEntry, ManifestListWriter, ManifestStatus,
+        ManifestContentType, ManifestEntry, ManifestListWriter, ManifestMetadata, ManifestStatus,
         ManifestWriterBuilder, Operation, Snapshot, Struct, Summary, TableMetadata,
     };
     use crate::table::Table;
@@ -518,6 +525,130 @@ mod tests {
                 .unwrap(),
             "1.parquet"
         );
+    }
+
+    fn data_file_entry(file_path: &str) -> ManifestEntry {
+        ManifestEntry::builder()
+            .status(ManifestStatus::Added)
+            .data_file(
+                DataFileBuilder::default()
+                    .partition_spec_id(0)
+                    .content(DataContentType::Data)
+                    .file_path(file_path.to_string())
+                    .file_format(DataFileFormat::Parquet)
+                    .file_size_in_bytes(100)
+                    .record_count(1)
+                    .partition(Struct::from_iter([Some(Literal::long(100))]))
+                    .build()
+                    .unwrap(),
+            )
+            .build()
+    }
+
+    fn manifest_with_entries(table: &Table, entry_count: usize, file_path: &str) -> Manifest {
+        let snapshot = table.metadata().current_snapshot().unwrap();
+        let metadata = ManifestMetadata::builder()
+            .schema(snapshot.schema(table.metadata()).unwrap())
+            .schema_id(0)
+            .partition_spec(table.metadata().default_partition_spec().as_ref().clone())
+            .format_version(FormatVersion::V2)
+            .content(ManifestContentType::Data)
+            .build();
+        let entries = (0..entry_count)
+            .map(|_| data_file_entry(file_path))
+            .collect();
+        Manifest::new(metadata, entries)
+    }
+
+    fn manifest_weight(manifest: Manifest) -> usize {
+        CachedItem::Manifest(Arc::new(manifest)).weight() as usize
+    }
+
+    #[test]
+    fn test_manifest_memory_size_counts_metadata_and_each_entry() {
+        let fixture = TableTestFixture::new();
+        let file_path = format!("{}/1.parquet", fixture.table_location);
+        let manifest = manifest_with_entries(&fixture.table, 1000, &file_path);
+
+        let size = manifest.memory_size();
+        let (entries, metadata) = manifest.into_parts();
+
+        assert_eq!(
+            size,
+            size_of::<Manifest>() + metadata.heap_size() + entries.heap_size()
+        );
+        assert_eq!(
+            entries.heap_size() - entries.capacity() * size_of::<Arc<ManifestEntry>>(),
+            1000 * Arc::new(data_file_entry(&file_path)).heap_size()
+        );
+    }
+
+    #[test]
+    fn test_manifest_weight_counts_file_path_bytes() {
+        let fixture = TableTestFixture::new();
+        let short_path = "s3://b/1.parquet";
+        let long_path = format!("s3://b/{}.parquet", "x".repeat(64 * 1024));
+
+        let short = manifest_weight(manifest_with_entries(&fixture.table, 1, short_path));
+        let long = manifest_weight(manifest_with_entries(&fixture.table, 1, &long_path));
+
+        assert_eq!(long - short, long_path.len() - short_path.len());
+    }
+
+    #[tokio::test]
+    async fn test_cache_weighted_size_is_the_memory_size_of_its_items() {
+        let mut fixture = TableTestFixture::new();
+        fixture.setup_manifest_files().await;
+
+        let object_cache = ObjectCache::new(fixture.table.file_io().clone(), None);
+        let manifest_list = object_cache
+            .get_manifest_list(
+                fixture.table.metadata().current_snapshot().unwrap(),
+                &fixture.table.metadata_ref(),
+            )
+            .await
+            .unwrap();
+        let manifest = object_cache
+            .get_manifest(manifest_list.entries().first().unwrap())
+            .await
+            .unwrap();
+        object_cache.cache.run_pending_tasks().await;
+
+        let expected = (manifest_list.memory_size() + manifest.memory_size()) as u64;
+        assert_eq!(object_cache.cache.weighted_size(), expected);
+    }
+
+    #[tokio::test]
+    async fn test_cache_evicts_when_items_outweigh_capacity() {
+        let mut fixture = TableTestFixture::new();
+        fixture.setup_manifest_files().await;
+
+        let unbounded = ObjectCache::new(fixture.table.file_io().clone(), None);
+        let manifest_list = unbounded
+            .get_manifest_list(
+                fixture.table.metadata().current_snapshot().unwrap(),
+                &fixture.table.metadata_ref(),
+            )
+            .await
+            .unwrap();
+        let manifest_file = manifest_list.entries().first().unwrap().clone();
+        let manifest = unbounded.get_manifest(&manifest_file).await.unwrap();
+        let capacity = (manifest_list.memory_size() + manifest.memory_size()) as u64 - 1;
+
+        let object_cache =
+            ObjectCache::new_with_capacity(fixture.table.file_io().clone(), capacity, None);
+        object_cache
+            .get_manifest_list(
+                fixture.table.metadata().current_snapshot().unwrap(),
+                &fixture.table.metadata_ref(),
+            )
+            .await
+            .unwrap();
+        object_cache.get_manifest(&manifest_file).await.unwrap();
+        object_cache.cache.run_pending_tasks().await;
+
+        assert!(object_cache.cache.weighted_size() <= capacity);
+        assert_eq!(object_cache.cache.entry_count(), 1);
     }
 
     #[tokio::test]

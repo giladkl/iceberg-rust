@@ -30,6 +30,7 @@ use serde_json::Value as JsonValue;
 
 use super::geospatial::{GeographyType, GeometryType, parse_geography, parse_geometry};
 use super::values::Literal;
+use crate::cache::MemorySize;
 use crate::ensure_data_valid;
 use crate::error::Result;
 use crate::spec::datatypes::_decimal::{MAX_PRECISION, REQUIRED_LENGTH};
@@ -980,6 +981,44 @@ impl<'de> Deserialize<'de> for VariantType {
         } else {
             Err(D::Error::custom(format!("expected 'variant', got '{s}'")))
         }
+    }
+}
+
+impl MemorySize for Type {
+    fn heap_size(&self) -> usize {
+        match self {
+            Type::Primitive(primitive) => primitive.heap_size(),
+            Type::Struct(struct_type) => struct_type.heap_size(),
+            Type::List(list) => list.element_field.heap_size(),
+            Type::Map(map) => map.key_field.heap_size() + map.value_field.heap_size(),
+            Type::Variant(_) => 0,
+        }
+    }
+}
+
+impl MemorySize for PrimitiveType {
+    fn heap_size(&self) -> usize {
+        match self {
+            PrimitiveType::Geometry(geometry) => geometry.heap_size(),
+            PrimitiveType::Geography(geography) => geography.heap_size(),
+            _ => 0,
+        }
+    }
+}
+
+impl MemorySize for StructType {
+    fn heap_size(&self) -> usize {
+        self.fields.heap_size() + self.id_lookup.heap_size() + self.name_lookup.heap_size()
+    }
+}
+
+impl MemorySize for NestedField {
+    fn heap_size(&self) -> usize {
+        self.name.heap_size()
+            + self.field_type.heap_size()
+            + self.doc.heap_size()
+            + self.initial_default.heap_size()
+            + self.write_default.heap_size()
     }
 }
 

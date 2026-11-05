@@ -27,6 +27,7 @@ use typed_builder::TypedBuilder;
 use super::transform::Transform;
 use super::{NestedField, PrimitiveType, Schema, SchemaRef, StructType};
 use crate::Result;
+use crate::cache::MemorySize;
 use crate::error::invalid_data;
 use crate::spec::Struct;
 
@@ -848,6 +849,18 @@ impl CorePartitionSpecValidator for PartitionSpecBuilder {
 impl CorePartitionSpecValidator for UnboundPartitionSpecBuilder {
     fn fields(&self) -> &Vec<UnboundPartitionField> {
         &self.fields
+    }
+}
+
+impl MemorySize for PartitionSpec {
+    fn heap_size(&self) -> usize {
+        self.fields.heap_size()
+    }
+}
+
+impl MemorySize for PartitionField {
+    fn heap_size(&self) -> usize {
+        self.name.heap_size()
     }
 }
 

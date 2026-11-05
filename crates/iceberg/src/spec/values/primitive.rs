@@ -21,6 +21,7 @@ use std::cmp::Ordering;
 
 use ordered_float::{FloatCore, OrderedFloat};
 
+use crate::cache::MemorySize;
 use crate::spec::PrimitiveType;
 
 /// Values present in iceberg type
@@ -156,6 +157,16 @@ impl PrimitiveLiteral {
             PrimitiveLiteral::Double(val) => val.is_nan(),
             PrimitiveLiteral::Float(val) => val.is_nan(),
             _ => false,
+        }
+    }
+}
+
+impl MemorySize for PrimitiveLiteral {
+    fn heap_size(&self) -> usize {
+        match self {
+            PrimitiveLiteral::String(s) => s.heap_size(),
+            PrimitiveLiteral::Binary(b) => b.heap_size(),
+            _ => 0,
         }
     }
 }

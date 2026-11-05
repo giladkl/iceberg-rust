@@ -20,6 +20,7 @@
 use std::ops::Index;
 
 use super::Literal;
+use crate::cache::MemorySize;
 
 /// The partition struct stores the tuple of partition values for each file.
 /// Its type is derived from the partition fields of the partition spec used to write the manifest file.
@@ -75,5 +76,11 @@ impl FromIterator<Option<Literal>> for Struct {
         Struct {
             fields: iter.into_iter().collect(),
         }
+    }
+}
+
+impl MemorySize for Struct {
+    fn heap_size(&self) -> usize {
+        self.fields.heap_size()
     }
 }

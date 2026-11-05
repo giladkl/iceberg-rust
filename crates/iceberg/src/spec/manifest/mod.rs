@@ -38,6 +38,7 @@ use super::{
     UNASSIGNED_SEQUENCE_NUMBER,
 };
 use crate::avro::{Resolved, define_named_types_once};
+use crate::cache::MemorySize;
 use crate::error::{Error, Result, invalid_data};
 
 /// Whether a manifest with repeated Avro named type definitions was logged at
@@ -193,6 +194,12 @@ pub fn deserialize_data_file_from_json(
 
     let partition_struct_type = Type::Struct(partition_type.clone());
     serde.try_into(partition_spec_id, &partition_struct_type, schema)
+}
+
+impl MemorySize for Manifest {
+    fn heap_size(&self) -> usize {
+        self.metadata.heap_size() + self.entries.heap_size()
+    }
 }
 
 #[cfg(test)]

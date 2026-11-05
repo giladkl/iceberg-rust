@@ -28,6 +28,7 @@ use super::{
     Datum, FormatVersion, Schema, data_file_schema_v1, data_file_schema_v2, data_file_schema_v3,
 };
 use crate::Error;
+use crate::cache::MemorySize;
 use crate::error::{Result, invalid_data};
 use crate::spec::{
     DEFAULT_PARTITION_SPEC_ID, Literal, NestedFieldRef, PrimitiveType, Struct, StructType, Type,
@@ -478,6 +479,23 @@ impl std::fmt::Display for DataFileFormat {
             DataFileFormat::Parquet => write!(f, "parquet"),
             DataFileFormat::Puffin => write!(f, "puffin"),
         }
+    }
+}
+
+impl MemorySize for DataFile {
+    fn heap_size(&self) -> usize {
+        self.file_path.heap_size()
+            + self.partition.heap_size()
+            + self.column_sizes.heap_size()
+            + self.value_counts.heap_size()
+            + self.null_value_counts.heap_size()
+            + self.nan_value_counts.heap_size()
+            + self.lower_bounds.heap_size()
+            + self.upper_bounds.heap_size()
+            + self.key_metadata.heap_size()
+            + self.split_offsets.heap_size()
+            + self.equality_ids.heap_size()
+            + self.referenced_data_file.heap_size()
     }
 }
 

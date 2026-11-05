@@ -19,6 +19,7 @@ use std::sync::Arc;
 
 use serde_derive::{Deserialize, Serialize};
 
+use crate::cache::MemorySize;
 use crate::spec::{Datum, Literal, PrimitiveType, Struct};
 use crate::{Error, ErrorKind, Result};
 
@@ -79,6 +80,12 @@ impl StructAccessor {
                 }
             }
         }
+    }
+}
+
+impl MemorySize for StructAccessor {
+    fn heap_size(&self) -> usize {
+        self.r#type.heap_size() + self.inner.heap_size()
     }
 }
 

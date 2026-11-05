@@ -21,6 +21,7 @@ use std::collections::HashMap;
 use std::hash::Hash;
 
 use super::Literal;
+use crate::cache::MemorySize;
 
 /// Map is a collection of key-value pairs with a key type and a value type.
 /// It used in Literal::Map, to make it hashable, the order of key-value pairs is stored in a separate vector
@@ -141,5 +142,11 @@ impl IntoIterator for Map {
 impl<const N: usize> From<[(Literal, Option<Literal>); N]> for Map {
     fn from(value: [(Literal, Option<Literal>); N]) -> Self {
         value.iter().cloned().collect()
+    }
+}
+
+impl MemorySize for Map {
+    fn heap_size(&self) -> usize {
+        self.index.heap_size() + self.pair.heap_size()
     }
 }

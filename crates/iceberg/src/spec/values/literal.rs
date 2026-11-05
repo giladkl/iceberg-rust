@@ -32,6 +32,7 @@ use super::decimal_utils::{
 use super::primitive::PrimitiveLiteral;
 use super::struct_value::Struct;
 use super::temporal::{date, time, timestamp, timestamptz};
+use crate::cache::MemorySize;
 use crate::error::{Error, ErrorKind, Result, invalid_data};
 use crate::spec::datatypes::{PrimitiveType, Type};
 
@@ -813,5 +814,16 @@ fn validate_fixed_size(actual: usize, expected: u64) -> Result<()> {
         Err(invalid_data!(
             "Fixed type must be exactly {expected} bytes, got {actual}"
         ))
+    }
+}
+
+impl MemorySize for Literal {
+    fn heap_size(&self) -> usize {
+        match self {
+            Literal::Primitive(primitive) => primitive.heap_size(),
+            Literal::Struct(value) => value.heap_size(),
+            Literal::List(items) => items.heap_size(),
+            Literal::Map(map) => map.heap_size(),
+        }
     }
 }

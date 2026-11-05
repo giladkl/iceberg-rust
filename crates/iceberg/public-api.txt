@@ -136,6 +136,147 @@ pub fn iceberg::arrow::schema_to_arrow_schema(schema: &iceberg::spec::Schema) ->
 pub fn iceberg::arrow::strip_metadata_from_schema(schema: &arrow_schema::schema::Schema) -> iceberg::Result<arrow_schema::schema::Schema>
 pub fn iceberg::arrow::type_to_arrow_type(ty: &iceberg::spec::Type) -> iceberg::Result<arrow_schema::datatype::DataType>
 pub mod iceberg::cache
+pub trait iceberg::cache::MemorySize
+pub fn iceberg::cache::MemorySize::heap_size(&self) -> usize
+pub fn iceberg::cache::MemorySize::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for alloc::string::String
+pub fn alloc::string::String::heap_size(&self) -> usize
+pub fn alloc::string::String::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for bool
+pub fn bool::heap_size(&self) -> usize
+pub fn bool::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for f32
+pub fn f32::heap_size(&self) -> usize
+pub fn f32::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for f64
+pub fn f64::heap_size(&self) -> usize
+pub fn f64::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for i128
+pub fn i128::heap_size(&self) -> usize
+pub fn i128::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for i16
+pub fn i16::heap_size(&self) -> usize
+pub fn i16::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for i32
+pub fn i32::heap_size(&self) -> usize
+pub fn i32::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for i64
+pub fn i64::heap_size(&self) -> usize
+pub fn i64::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for i8
+pub fn i8::heap_size(&self) -> usize
+pub fn i8::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::DataFile
+pub fn iceberg::spec::DataFile::heap_size(&self) -> usize
+pub fn iceberg::spec::DataFile::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Datum
+pub fn iceberg::spec::Datum::heap_size(&self) -> usize
+pub fn iceberg::spec::Datum::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::FieldSummary
+pub fn iceberg::spec::FieldSummary::heap_size(&self) -> usize
+pub fn iceberg::spec::FieldSummary::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Literal
+pub fn iceberg::spec::Literal::heap_size(&self) -> usize
+pub fn iceberg::spec::Literal::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Manifest
+pub fn iceberg::spec::Manifest::heap_size(&self) -> usize
+pub fn iceberg::spec::Manifest::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestEntry
+pub fn iceberg::spec::ManifestEntry::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestEntry::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestFile
+pub fn iceberg::spec::ManifestFile::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestFile::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestList
+pub fn iceberg::spec::ManifestList::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestList::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestMetadata
+pub fn iceberg::spec::ManifestMetadata::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestMetadata::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Map
+pub fn iceberg::spec::Map::heap_size(&self) -> usize
+pub fn iceberg::spec::Map::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::NestedField
+pub fn iceberg::spec::NestedField::heap_size(&self) -> usize
+pub fn iceberg::spec::NestedField::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::PartitionField
+pub fn iceberg::spec::PartitionField::heap_size(&self) -> usize
+pub fn iceberg::spec::PartitionField::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::PartitionSpec
+pub fn iceberg::spec::PartitionSpec::heap_size(&self) -> usize
+pub fn iceberg::spec::PartitionSpec::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::PrimitiveLiteral
+pub fn iceberg::spec::PrimitiveLiteral::heap_size(&self) -> usize
+pub fn iceberg::spec::PrimitiveLiteral::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::PrimitiveType
+pub fn iceberg::spec::PrimitiveType::heap_size(&self) -> usize
+pub fn iceberg::spec::PrimitiveType::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Schema
+pub fn iceberg::spec::Schema::heap_size(&self) -> usize
+pub fn iceberg::spec::Schema::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Struct
+pub fn iceberg::spec::Struct::heap_size(&self) -> usize
+pub fn iceberg::spec::Struct::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::StructType
+pub fn iceberg::spec::StructType::heap_size(&self) -> usize
+pub fn iceberg::spec::StructType::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::Type
+pub fn iceberg::spec::Type::heap_size(&self) -> usize
+pub fn iceberg::spec::Type::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeographyType
+pub fn iceberg::spec::geospatial::GeographyType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeographyType::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeometryType
+pub fn iceberg::spec::geospatial::GeometryType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeometryType::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for serde_bytes::bytebuf::ByteBuf
+pub fn serde_bytes::bytebuf::ByteBuf::heap_size(&self) -> usize
+pub fn serde_bytes::bytebuf::ByteBuf::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for u128
+pub fn u128::heap_size(&self) -> usize
+pub fn u128::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for u16
+pub fn u16::heap_size(&self) -> usize
+pub fn u16::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for u32
+pub fn u32::heap_size(&self) -> usize
+pub fn u32::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for u64
+pub fn u64::heap_size(&self) -> usize
+pub fn u64::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for u8
+pub fn u8::heap_size(&self) -> usize
+pub fn u8::memory_size(&self) -> usize
+impl iceberg::cache::MemorySize for usize
+pub fn usize::heap_size(&self) -> usize
+pub fn usize::memory_size(&self) -> usize
+impl<A: iceberg::cache::MemorySize, B: iceberg::cache::MemorySize> iceberg::cache::MemorySize for (A, B)
+pub fn (A, B)::heap_size(&self) -> usize
+pub fn (A, B)::memory_size(&self) -> usize
+impl<K: iceberg::cache::MemorySize, V: iceberg::cache::MemorySize, S> iceberg::cache::MemorySize for std::collections::hash::map::HashMap<K, V, S>
+pub fn std::collections::hash::map::HashMap<K, V, S>::heap_size(&self) -> usize
+pub fn std::collections::hash::map::HashMap<K, V, S>::memory_size(&self) -> usize
+impl<L: iceberg::cache::MemorySize + core::cmp::Eq + core::hash::Hash, R: iceberg::cache::MemorySize + core::cmp::Eq + core::hash::Hash> iceberg::cache::MemorySize for bimap::hash::BiHashMap<L, R>
+pub fn bimap::hash::BiHashMap<L, R>::heap_size(&self) -> usize
+pub fn bimap::hash::BiHashMap<L, R>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize, S> iceberg::cache::MemorySize for std::collections::hash::set::HashSet<T, S>
+pub fn std::collections::hash::set::HashSet<T, S>::heap_size(&self) -> usize
+pub fn std::collections::hash::set::HashSet<T, S>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize> iceberg::cache::MemorySize for alloc::boxed::Box<T>
+pub fn alloc::boxed::Box<T>::heap_size(&self) -> usize
+pub fn alloc::boxed::Box<T>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize> iceberg::cache::MemorySize for alloc::sync::Arc<T>
+pub fn alloc::sync::Arc<T>::heap_size(&self) -> usize
+pub fn alloc::sync::Arc<T>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize> iceberg::cache::MemorySize for alloc::vec::Vec<T>
+pub fn alloc::vec::Vec<T>::heap_size(&self) -> usize
+pub fn alloc::vec::Vec<T>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize> iceberg::cache::MemorySize for core::option::Option<T>
+pub fn core::option::Option<T>::heap_size(&self) -> usize
+pub fn core::option::Option<T>::memory_size(&self) -> usize
+impl<T: iceberg::cache::MemorySize> iceberg::cache::MemorySize for std::sync::once_lock::OnceLock<T>
+pub fn std::sync::once_lock::OnceLock<T>::heap_size(&self) -> usize
+pub fn std::sync::once_lock::OnceLock<T>::memory_size(&self) -> usize
 pub trait iceberg::cache::ObjectCache<K, V>: core::marker::Send + core::marker::Sync
 pub fn iceberg::cache::ObjectCache::get(&self, key: &K) -> core::option::Option<V>
 pub fn iceberg::cache::ObjectCache::set(&self, key: K, value: V)
@@ -1539,6 +1680,9 @@ pub fn iceberg::spec::geospatial::GeographyType::fmt(&self, f: &mut core::fmt::F
 impl core::hash::Hash for iceberg::spec::geospatial::GeographyType
 pub fn iceberg::spec::geospatial::GeographyType::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::geospatial::GeographyType
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeographyType
+pub fn iceberg::spec::geospatial::GeographyType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeographyType::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::geospatial::GeographyType
 pub fn iceberg::spec::geospatial::GeographyType::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::geospatial::GeographyType
@@ -1559,6 +1703,9 @@ pub fn iceberg::spec::geospatial::GeometryType::fmt(&self, f: &mut core::fmt::Fo
 impl core::hash::Hash for iceberg::spec::geospatial::GeometryType
 pub fn iceberg::spec::geospatial::GeometryType::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::geospatial::GeometryType
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeometryType
+pub fn iceberg::spec::geospatial::GeometryType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeometryType::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::geospatial::GeometryType
 pub fn iceberg::spec::geospatial::GeometryType::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::geospatial::GeometryType
@@ -1692,6 +1839,9 @@ pub fn iceberg::spec::Literal::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> c
 impl core::hash::Hash for iceberg::spec::Literal
 pub fn iceberg::spec::Literal::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::Literal
+impl iceberg::cache::MemorySize for iceberg::spec::Literal
+pub fn iceberg::spec::Literal::heap_size(&self) -> usize
+pub fn iceberg::spec::Literal::memory_size(&self) -> usize
 pub enum iceberg::spec::ManifestContentType
 pub iceberg::spec::ManifestContentType::Data = 0
 pub iceberg::spec::ManifestContentType::Deletes = 1
@@ -1798,6 +1948,9 @@ impl core::fmt::Debug for iceberg::spec::PrimitiveLiteral
 pub fn iceberg::spec::PrimitiveLiteral::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::hash::Hash for iceberg::spec::PrimitiveLiteral
 pub fn iceberg::spec::PrimitiveLiteral::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
+impl iceberg::cache::MemorySize for iceberg::spec::PrimitiveLiteral
+pub fn iceberg::spec::PrimitiveLiteral::heap_size(&self) -> usize
+pub fn iceberg::spec::PrimitiveLiteral::memory_size(&self) -> usize
 pub enum iceberg::spec::PrimitiveType
 pub iceberg::spec::PrimitiveType::Binary
 pub iceberg::spec::PrimitiveType::Boolean
@@ -1836,6 +1989,9 @@ pub fn iceberg::spec::PrimitiveType::fmt(&self, f: &mut core::fmt::Formatter<'_>
 impl core::hash::Hash for iceberg::spec::PrimitiveType
 pub fn iceberg::spec::PrimitiveType::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::PrimitiveType
+impl iceberg::cache::MemorySize for iceberg::spec::PrimitiveType
+pub fn iceberg::spec::PrimitiveType::heap_size(&self) -> usize
+pub fn iceberg::spec::PrimitiveType::memory_size(&self) -> usize
 impl iceberg::spec::PrimitiveType
 pub fn iceberg::spec::PrimitiveType::serialize<__S>(__self: &iceberg::spec::PrimitiveType, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl serde_core::ser::Serialize for iceberg::spec::PrimitiveType
@@ -1970,6 +2126,9 @@ pub fn iceberg::spec::Type::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core
 impl core::fmt::Display for iceberg::spec::Type
 pub fn iceberg::spec::Type::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::Type
+impl iceberg::cache::MemorySize for iceberg::spec::Type
+pub fn iceberg::spec::Type::heap_size(&self) -> usize
+pub fn iceberg::spec::Type::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::Type
 pub fn iceberg::spec::Type::serialize<S>(&self, serializer: S) -> core::result::Result<<S as serde_core::ser::Serializer>::Ok, <S as serde_core::ser::Serializer>::Error> where S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::Type
@@ -2059,6 +2218,9 @@ pub fn iceberg::spec::DataFile::eq(&self, other: &iceberg::spec::DataFile) -> bo
 impl core::fmt::Debug for iceberg::spec::DataFile
 pub fn iceberg::spec::DataFile::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::DataFile
+impl iceberg::cache::MemorySize for iceberg::spec::DataFile
+pub fn iceberg::spec::DataFile::heap_size(&self) -> usize
+pub fn iceberg::spec::DataFile::memory_size(&self) -> usize
 pub struct iceberg::spec::DataFileBuilder
 impl iceberg::spec::DataFileBuilder
 pub fn iceberg::spec::DataFileBuilder::build(&self) -> core::result::Result<iceberg::spec::DataFile, iceberg::spec::DataFileBuilderError>
@@ -2142,6 +2304,9 @@ pub fn iceberg::spec::Datum::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> cor
 impl core::hash::Hash for iceberg::spec::Datum
 pub fn iceberg::spec::Datum::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::Datum
+impl iceberg::cache::MemorySize for iceberg::spec::Datum
+pub fn iceberg::spec::Datum::heap_size(&self) -> usize
+pub fn iceberg::spec::Datum::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::Datum
 pub fn iceberg::spec::Datum::serialize<S: serde_core::ser::Serializer>(&self, serializer: S) -> core::result::Result<<S as serde_core::ser::Serializer>::Ok, <S as serde_core::ser::Serializer>::Error>
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::Datum
@@ -2183,6 +2348,9 @@ pub fn iceberg::spec::FieldSummary::fmt(&self, f: &mut core::fmt::Formatter<'_>)
 impl core::hash::Hash for iceberg::spec::FieldSummary
 pub fn iceberg::spec::FieldSummary::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::FieldSummary
+impl iceberg::cache::MemorySize for iceberg::spec::FieldSummary
+pub fn iceberg::spec::FieldSummary::heap_size(&self) -> usize
+pub fn iceberg::spec::FieldSummary::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::FieldSummary
 pub fn iceberg::spec::FieldSummary::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::FieldSummary
@@ -2204,6 +2372,9 @@ pub fn iceberg::spec::geospatial::GeographyType::fmt(&self, f: &mut core::fmt::F
 impl core::hash::Hash for iceberg::spec::geospatial::GeographyType
 pub fn iceberg::spec::geospatial::GeographyType::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::geospatial::GeographyType
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeographyType
+pub fn iceberg::spec::geospatial::GeographyType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeographyType::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::geospatial::GeographyType
 pub fn iceberg::spec::geospatial::GeographyType::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::geospatial::GeographyType
@@ -2224,6 +2395,9 @@ pub fn iceberg::spec::geospatial::GeometryType::fmt(&self, f: &mut core::fmt::Fo
 impl core::hash::Hash for iceberg::spec::geospatial::GeometryType
 pub fn iceberg::spec::geospatial::GeometryType::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::geospatial::GeometryType
+impl iceberg::cache::MemorySize for iceberg::spec::geospatial::GeometryType
+pub fn iceberg::spec::geospatial::GeometryType::heap_size(&self) -> usize
+pub fn iceberg::spec::geospatial::GeometryType::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::geospatial::GeometryType
 pub fn iceberg::spec::geospatial::GeometryType::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::geospatial::GeometryType
@@ -2257,6 +2431,9 @@ pub fn iceberg::spec::Manifest::eq(&self, other: &iceberg::spec::Manifest) -> bo
 impl core::fmt::Debug for iceberg::spec::Manifest
 pub fn iceberg::spec::Manifest::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::Manifest
+impl iceberg::cache::MemorySize for iceberg::spec::Manifest
+pub fn iceberg::spec::Manifest::heap_size(&self) -> usize
+pub fn iceberg::spec::Manifest::memory_size(&self) -> usize
 pub struct iceberg::spec::ManifestEntry
 pub iceberg::spec::ManifestEntry::data_file: iceberg::spec::DataFile
 pub iceberg::spec::ManifestEntry::file_sequence_number: core::option::Option<i64>
@@ -2282,6 +2459,9 @@ pub fn iceberg::spec::ManifestEntry::eq(&self, other: &iceberg::spec::ManifestEn
 impl core::fmt::Debug for iceberg::spec::ManifestEntry
 pub fn iceberg::spec::ManifestEntry::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::ManifestEntry
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestEntry
+pub fn iceberg::spec::ManifestEntry::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestEntry::memory_size(&self) -> usize
 impl iceberg::spec::ManifestEntry
 pub fn iceberg::spec::ManifestEntry::builder() -> ManifestEntryBuilder<((), (), (), (), ())>
 pub struct iceberg::spec::ManifestFile
@@ -2315,6 +2495,9 @@ pub fn iceberg::spec::ManifestFile::fmt(&self, f: &mut core::fmt::Formatter<'_>)
 impl core::hash::Hash for iceberg::spec::ManifestFile
 pub fn iceberg::spec::ManifestFile::hash<__H: core::hash::Hasher>(&self, state: &mut __H)
 impl core::marker::StructuralPartialEq for iceberg::spec::ManifestFile
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestFile
+pub fn iceberg::spec::ManifestFile::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestFile::memory_size(&self) -> usize
 pub struct iceberg::spec::ManifestList
 impl iceberg::spec::ManifestList
 pub fn iceberg::spec::ManifestList::consume_entries(self) -> impl core::iter::traits::collect::IntoIterator<Item = iceberg::spec::ManifestFile>
@@ -2327,6 +2510,9 @@ pub fn iceberg::spec::ManifestList::eq(&self, other: &iceberg::spec::ManifestLis
 impl core::fmt::Debug for iceberg::spec::ManifestList
 pub fn iceberg::spec::ManifestList::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::ManifestList
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestList
+pub fn iceberg::spec::ManifestList::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestList::memory_size(&self) -> usize
 pub struct iceberg::spec::ManifestListReader
 impl iceberg::spec::ManifestListReader
 pub async fn iceberg::spec::ManifestListReader::load(&self) -> iceberg::Result<iceberg::spec::ManifestList>
@@ -2361,6 +2547,9 @@ pub fn iceberg::spec::ManifestMetadata::eq(&self, other: &iceberg::spec::Manifes
 impl core::fmt::Debug for iceberg::spec::ManifestMetadata
 pub fn iceberg::spec::ManifestMetadata::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::ManifestMetadata
+impl iceberg::cache::MemorySize for iceberg::spec::ManifestMetadata
+pub fn iceberg::spec::ManifestMetadata::heap_size(&self) -> usize
+pub fn iceberg::spec::ManifestMetadata::memory_size(&self) -> usize
 impl iceberg::spec::ManifestMetadata
 pub fn iceberg::spec::ManifestMetadata::builder() -> ManifestMetadataBuilder<((), (), (), (), ())>
 pub struct iceberg::spec::ManifestReader
@@ -2407,6 +2596,9 @@ pub type iceberg::spec::Map::IntoIter = alloc::vec::into_iter::IntoIter<<iceberg
 pub type iceberg::spec::Map::Item = (iceberg::spec::Literal, core::option::Option<iceberg::spec::Literal>)
 pub fn iceberg::spec::Map::into_iter(self) -> Self::IntoIter
 impl core::marker::StructuralPartialEq for iceberg::spec::Map
+impl iceberg::cache::MemorySize for iceberg::spec::Map
+pub fn iceberg::spec::Map::heap_size(&self) -> usize
+pub fn iceberg::spec::Map::memory_size(&self) -> usize
 impl<const N: usize> core::convert::From<[(iceberg::spec::Literal, core::option::Option<iceberg::spec::Literal>); N]> for iceberg::spec::Map
 pub fn iceberg::spec::Map::from(value: [(iceberg::spec::Literal, core::option::Option<iceberg::spec::Literal>); N]) -> Self
 pub struct iceberg::spec::MapType
@@ -2506,6 +2698,9 @@ pub fn iceberg::spec::NestedField::fmt(&self, f: &mut core::fmt::Formatter<'_>) 
 impl core::fmt::Display for iceberg::spec::NestedField
 pub fn iceberg::spec::NestedField::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::NestedField
+impl iceberg::cache::MemorySize for iceberg::spec::NestedField
+pub fn iceberg::spec::NestedField::heap_size(&self) -> usize
+pub fn iceberg::spec::NestedField::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::NestedField
 pub fn iceberg::spec::NestedField::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::NestedField
@@ -2527,6 +2722,9 @@ pub fn iceberg::spec::UnboundPartitionField::from(field: iceberg::spec::Partitio
 impl core::fmt::Debug for iceberg::spec::PartitionField
 pub fn iceberg::spec::PartitionField::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::PartitionField
+impl iceberg::cache::MemorySize for iceberg::spec::PartitionField
+pub fn iceberg::spec::PartitionField::heap_size(&self) -> usize
+pub fn iceberg::spec::PartitionField::memory_size(&self) -> usize
 impl iceberg::spec::PartitionField
 pub fn iceberg::spec::PartitionField::builder() -> PartitionFieldBuilder<((), (), (), ())>
 impl serde_core::ser::Serialize for iceberg::spec::PartitionField
@@ -2570,6 +2768,9 @@ pub fn iceberg::spec::UnboundPartitionSpec::from(spec: iceberg::spec::PartitionS
 impl core::fmt::Debug for iceberg::spec::PartitionSpec
 pub fn iceberg::spec::PartitionSpec::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::marker::StructuralPartialEq for iceberg::spec::PartitionSpec
+impl iceberg::cache::MemorySize for iceberg::spec::PartitionSpec
+pub fn iceberg::spec::PartitionSpec::heap_size(&self) -> usize
+pub fn iceberg::spec::PartitionSpec::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::PartitionSpec
 pub fn iceberg::spec::PartitionSpec::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::PartitionSpec
@@ -2637,6 +2838,9 @@ impl core::fmt::Debug for iceberg::spec::Schema
 pub fn iceberg::spec::Schema::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
 impl core::fmt::Display for iceberg::spec::Schema
 pub fn iceberg::spec::Schema::fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl iceberg::cache::MemorySize for iceberg::spec::Schema
+pub fn iceberg::spec::Schema::heap_size(&self) -> usize
+pub fn iceberg::spec::Schema::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::Schema
 pub fn iceberg::spec::Schema::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::Schema
@@ -2851,6 +3055,9 @@ impl core::marker::StructuralPartialEq for iceberg::spec::Struct
 impl core::ops::index::Index<usize> for iceberg::spec::Struct
 pub type iceberg::spec::Struct::Output = core::option::Option<iceberg::spec::Literal>
 pub fn iceberg::spec::Struct::index(&self, idx: usize) -> &Self::Output
+impl iceberg::cache::MemorySize for iceberg::spec::Struct
+pub fn iceberg::spec::Struct::heap_size(&self) -> usize
+pub fn iceberg::spec::Struct::memory_size(&self) -> usize
 pub struct iceberg::spec::StructType
 impl iceberg::spec::StructType
 pub fn iceberg::spec::StructType::field_by_id(&self, id: i32) -> core::option::Option<&iceberg::spec::NestedFieldRef>
@@ -2873,6 +3080,9 @@ pub fn iceberg::spec::StructType::fmt(&self, f: &mut core::fmt::Formatter<'_>) -
 impl core::ops::index::Index<usize> for iceberg::spec::StructType
 pub type iceberg::spec::StructType::Output = iceberg::spec::NestedField
 pub fn iceberg::spec::StructType::index(&self, index: usize) -> &Self::Output
+impl iceberg::cache::MemorySize for iceberg::spec::StructType
+pub fn iceberg::spec::StructType::heap_size(&self) -> usize
+pub fn iceberg::spec::StructType::memory_size(&self) -> usize
 impl serde_core::ser::Serialize for iceberg::spec::StructType
 pub fn iceberg::spec::StructType::serialize<__S>(&self, __serializer: __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
 impl<'de> serde_core::de::Deserialize<'de> for iceberg::spec::StructType

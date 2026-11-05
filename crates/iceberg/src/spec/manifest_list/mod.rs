@@ -32,6 +32,7 @@ pub use writer::*;
 
 use self::_const_schema::MANIFEST_LIST_AVRO_SCHEMA_V1;
 use super::FormatVersion;
+use crate::cache::MemorySize;
 use crate::error::Result;
 
 /// Placeholder for sequence number. The field with this value must be replaced with the actual sequence number before it write.
@@ -88,6 +89,12 @@ impl ManifestList {
     /// Take ownership of the entries in the manifest list, consuming it
     pub fn consume_entries(self) -> impl IntoIterator<Item = ManifestFile> {
         Box::new(self.entries.into_iter())
+    }
+}
+
+impl MemorySize for ManifestList {
+    fn heap_size(&self) -> usize {
+        self.entries.heap_size()
     }
 }
 

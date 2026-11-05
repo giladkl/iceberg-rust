@@ -22,6 +22,7 @@ use std::hash::{Hash, Hasher};
 use serde::{Deserialize, Serialize};
 
 use super::PrimitiveType;
+use crate::cache::MemorySize;
 use crate::error::{Result, invalid_data};
 
 pub(crate) const DEFAULT_GEOSPATIAL_CRS: &str = "OGC:CRS84";
@@ -212,4 +213,16 @@ pub(super) fn parse_geography(value: &str) -> Result<PrimitiveType> {
     };
 
     Ok(PrimitiveType::Geography(geography))
+}
+
+impl MemorySize for GeometryType {
+    fn heap_size(&self) -> usize {
+        self.crs.0.heap_size()
+    }
+}
+
+impl MemorySize for GeographyType {
+    fn heap_size(&self) -> usize {
+        self.crs.0.heap_size()
+    }
 }

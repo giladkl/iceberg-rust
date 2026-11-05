@@ -40,6 +40,7 @@ use self::id_reassigner::ReassignFieldIds;
 use self::index::{IndexByName, index_by_id, index_parents};
 pub use self::prune_columns::prune_columns;
 use super::NestedField;
+use crate::cache::{MemorySize, hash_table_size};
 use crate::error::{Result, invalid_data};
 use crate::expr::accessor::StructAccessor;
 use crate::spec::FormatVersion;
@@ -552,6 +553,21 @@ impl Display for Schema {
             writeln!(f, "  {field}")?;
         }
         writeln!(f, "}}")
+    }
+}
+
+impl MemorySize for Schema {
+    fn heap_size(&self) -> usize {
+        // `id_to_field` shares its `Arc<NestedField>`s with `r#struct`, which
+        // already counts them, so only its table is added.
+        self.r#struct.heap_size()
+            + self.identifier_field_ids.heap_size()
+            + self.alias_to_id.heap_size()
+            + hash_table_size::<i32, NestedFieldRef>(self.id_to_field.capacity())
+            + self.name_to_id.heap_size()
+            + self.lowercase_name_to_id.heap_size()
+            + self.id_to_name.heap_size()
+            + self.field_id_to_accessor.heap_size()
     }
 }
 

@@ -23,6 +23,7 @@ use typed_builder::TypedBuilder;
 
 use crate::Error;
 use crate::avro::schema_to_avro_schema;
+use crate::cache::MemorySize;
 use crate::error::{Result, invalid_data};
 use crate::spec::{
     DataContentType, DataFile, INITIAL_SEQUENCE_NUMBER, ListType, Literal, ManifestFile, MapType,
@@ -657,4 +658,10 @@ pub(super) fn manifest_schema_v1(partition_type: &StructType) -> Result<AvroSche
     ];
     let schema = Schema::builder().with_fields(fields).build()?;
     schema_to_avro_schema("manifest_entry", &schema)
+}
+
+impl MemorySize for ManifestEntry {
+    fn heap_size(&self) -> usize {
+        self.data_file.heap_size()
+    }
 }

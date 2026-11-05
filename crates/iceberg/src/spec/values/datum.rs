@@ -36,6 +36,7 @@ use super::literal::Literal;
 use super::primitive::PrimitiveLiteral;
 use super::serde::_serde::RawLiteral;
 use super::temporal::{date, time, timestamp, timestamptz};
+use crate::cache::MemorySize;
 use crate::ensure_data_valid;
 use crate::error::{Error, ErrorKind, Result, invalid_data};
 use crate::spec::MAX_DECIMAL_PRECISION;
@@ -1320,5 +1321,11 @@ fn human_float<T: Float + LowerExp + FromStr>(value: T) -> String {
     } else {
         let fraction = if digits.len() > 1 { &digits[1..] } else { "0" };
         format!("{sign}{}.{fraction}E{exponent}", &digits[..1])
+    }
+}
+
+impl MemorySize for Datum {
+    fn heap_size(&self) -> usize {
+        self.r#type.heap_size() + self.literal.heap_size()
     }
 }

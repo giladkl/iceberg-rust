@@ -21,6 +21,7 @@ use serde_derive::{Deserialize, Serialize};
 
 use super::ByteBuf;
 use crate::Error;
+use crate::cache::MemorySize;
 use crate::error::{Result, invalid_data};
 
 /// Entry in a manifest list.
@@ -189,6 +190,18 @@ pub struct FieldSummary {
     /// The maximum value for the field in the manifests
     /// partitions.
     pub upper_bound: Option<ByteBuf>,
+}
+
+impl MemorySize for ManifestFile {
+    fn heap_size(&self) -> usize {
+        self.manifest_path.heap_size() + self.partitions.heap_size() + self.key_metadata.heap_size()
+    }
+}
+
+impl MemorySize for FieldSummary {
+    fn heap_size(&self) -> usize {
+        self.lower_bound.heap_size() + self.upper_bound.heap_size()
+    }
 }
 
 #[cfg(test)]

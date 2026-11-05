@@ -21,6 +21,7 @@ use std::sync::Arc;
 use typed_builder::TypedBuilder;
 
 use super::{FormatVersion, ManifestContentType, PartitionSpec, Schema};
+use crate::cache::MemorySize;
 use crate::error::{Result, invalid_data};
 use crate::spec::{PartitionField, SchemaId, SchemaRef};
 
@@ -130,5 +131,11 @@ impl ManifestMetadata {
     /// Get the type of content files tracked by manifest
     pub fn content(&self) -> &ManifestContentType {
         &self.content
+    }
+}
+
+impl MemorySize for ManifestMetadata {
+    fn heap_size(&self) -> usize {
+        self.schema.heap_size() + self.partition_spec.heap_size()
     }
 }
